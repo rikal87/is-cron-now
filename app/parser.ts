@@ -24,7 +24,7 @@ const getRepeatedValues = (values: string, maxValue: number): Array<string> => {
   const list = []
   for (let i = 0; i <= maxValue; i++) {
     prev += multiplier
-    if (prev >= maxValue) {
+    if (prev > maxValue) {
       return list
     }
     list.push(`${prev}`)
