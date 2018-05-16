@@ -47,8 +47,5 @@ export const isActive = (cronString: string, matchTime = new Date()) => {
     matchTime
   )
 
-  if (isAnyValueEmpty(activeValues)) {
-    return false
-  }
-  return true
+  return !isAnyValueEmpty(activeValues)
 }
