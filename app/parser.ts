@@ -1,5 +1,6 @@
 import {constraints, PartsType, PartNames} from './constants'
 import {getDateOfType} from './date-helper'
+import {validateDatePartNumber} from './validator'
 
 const getHyphenRangeValues = (values: string): Array<string> => {
   const [start, end] = values.split('-')
@@ -31,20 +32,17 @@ const getRepeatedValues = (values: string, maxValue: number): Array<string> => {
   return list
 }
 
-export const parse = (contraint: Array<number>, type: PartsType) => (
+const parseValue = (type: PartsType, contraint: Array<number>) => (value: string) => {
+  const [min, max] = contraint
+  const number = +value
+  return validateDatePartNumber(type, number, min, max)
+}
+
+export const parsePart = (contraint: Array<number>, type: PartsType) => (
   values: string,
   matchTime: Date
 ) => {
-  const parseValue = (value: string) => {
-    const [low, high] = contraint
-    const number = +value
-
-    if (number >= low && number <= high && !isNaN(number)) {
-      return number
-    }
-
-    throw new Error(`parse error: type: ${type} value: ${number}`)
-  }
+  const parseAndValidateValue = parseValue(type, contraint)
 
   if (values === '*') {
     return [getDateOfType(type, matchTime)]
@@ -52,28 +50,28 @@ export const parse = (contraint: Array<number>, type: PartsType) => (
 
   const parts = values.split(',')
   if (parts.length > 1) {
-    return parts.map(parseValue)
+    return parts.map(parseAndValidateValue)
   }
 
   if (values.split('-').length > 1) {
     const hyphenParts = getHyphenRangeValues(values)
-    return hyphenParts.map(parseValue)
+    return hyphenParts.map(parseAndValidateValue)
   }
 
   if (values.split('/').length > 1) {
     const repeatedParts = getRepeatedValues(values, contraint[1])
-    return repeatedParts.map(parseValue)
+    return repeatedParts.map(parseAndValidateValue)
   }
 
-  return [parseValue(values)]
+  return [parseAndValidateValue(values)]
 }
 
-export const parseMinute = parse(constraints.minute, PartNames.minutes)
-export const parseHour = parse(constraints.hour, PartNames.hours)
-export const parseDayOfMonth = parse(
+export const parseMinute = parsePart(constraints.minute, PartNames.minutes)
+export const parseHour = parsePart(constraints.hour, PartNames.hours)
+export const parseDayOfMonth = parsePart(
   constraints.dayOfMonth,
   PartNames.dayOfMonth
 )
-export const parseMonth = parse(constraints.monthOfYear, PartNames.monthOfYear)
-export const parseDayOfWeek = parse(constraints.dayOfWeek, PartNames.dayOfWeek)
-export const parseYear = parse(constraints.year, PartNames.year)
+export const parseMonth = parsePart(constraints.monthOfYear, PartNames.monthOfYear)
+export const parseDayOfWeek = parsePart(constraints.dayOfWeek, PartNames.dayOfWeek)
+export const parseYear = parsePart(constraints.year, PartNames.year)
