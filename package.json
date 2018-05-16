@@ -1,17 +1,28 @@
 {
   "name": "cron-parser",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./app/app.js",
+  "version": "0.0.1",
+  "description": "check if cron is active",
+  "main": "./dist/app.js",
   "scripts": {
     "start": "node playground.js",
     "build": "npx typescript",
-    "build-run": "npm run build && npm start",
     "test": "npx mocha test"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cron",
+    "cronjob",
+    "active"
+  ],
+  "author": "richard söderman",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richie-south/is-cron-now.git"
+  },
+  "bugs": {
+    "url": "https://github.com/richie-south/is-cron-now/issues"
+  },
+  "homepage": "https://github.com/richie-south/is-cron-now#readme",
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^5.1.1",

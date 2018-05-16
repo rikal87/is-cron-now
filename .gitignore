@@ -61,6 +61,6 @@ typings/
 .next
 
 .vscode/*
-/bin/*
+/dist/*
 
 .DS_Store

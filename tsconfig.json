@@ -5,7 +5,7 @@
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
-    "outDir": "./bin/",
+    "outDir": "./dist/",
   },
   "include": [
     "./app/**/*"
