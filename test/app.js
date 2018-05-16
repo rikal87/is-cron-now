@@ -16,7 +16,7 @@ const expect = chai.expect
 //          year  month  dayOnMonth hour  minute
 // new Date(1995,  11,     17,       3,    24)
 
-const {isActive} = require('../bin/app')
+const {isActive} = require('../dist/app')
 
 describe('isActive', () => {
   it('* * * * * * should always be true', () => {
