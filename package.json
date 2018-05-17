@@ -1,5 +1,5 @@
 {
-  "name": "cron-parser",
+  "name": "is-cron-now",
   "version": "0.0.1",
   "description": "check if cron is active",
   "main": "./dist/app.js",
