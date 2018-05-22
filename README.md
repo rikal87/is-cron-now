@@ -38,6 +38,11 @@ this package supports the following cron formats.
 * * * * * 2016/2
 ```
 
+**With range and list**
+```
+* 0-6,16-23 * * * *
+```
+
 ## Example
 
 ```javascript
