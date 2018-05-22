@@ -106,4 +106,10 @@ describe('isActive', () => {
       new Date(2018, 11, 9, 1, 50))
     expect(result).to.be.true
   })
+
+  it('range with list 0 0-7,16-23 19 11 * 2010-2016,2017-2020 should always be true', () => {
+    const result = isActive('0 0-7,16-23 19 11 * 2010-2016,2017-2020',
+      new Date(2018, 11, 19, 6, 0))
+    expect(result).to.be.true
+  })
 })
