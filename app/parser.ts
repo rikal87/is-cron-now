@@ -32,7 +32,9 @@ const getRepeatedValues = (values: string, maxValue: number): Array<string> => {
   return list
 }
 
-const parseValue = (type: PartsType, contraint: Array<number>) => (value: string) => {
+const parseValue = (type: PartsType, contraint: Array<number>) => (
+  value: string
+) => {
   const [min, max] = contraint
   const number = +value
   return validateDatePartNumber(type, number, min, max)
@@ -41,7 +43,7 @@ const parseValue = (type: PartsType, contraint: Array<number>) => (value: string
 export const parsePart = (contraint: Array<number>, type: PartsType) => (
   values: string,
   matchTime: Date
-) => {
+): Array<number> => {
   const parseAndValidateValue = parseValue(type, contraint)
 
   if (values === '*') {
@@ -50,7 +52,9 @@ export const parsePart = (contraint: Array<number>, type: PartsType) => (
 
   const parts = values.split(',')
   if (parts.length > 1) {
-    return parts.map(parseAndValidateValue)
+    return parts
+      .map(part => parsePart(contraint, type)(part, matchTime))
+      .reduce((a, b) => (Array.isArray(a) ? a.concat(b) : a))
   }
 
   if (values.split('-').length > 1) {
@@ -72,6 +76,12 @@ export const parseDayOfMonth = parsePart(
   constraints.dayOfMonth,
   PartNames.dayOfMonth
 )
-export const parseMonth = parsePart(constraints.monthOfYear, PartNames.monthOfYear)
-export const parseDayOfWeek = parsePart(constraints.dayOfWeek, PartNames.dayOfWeek)
+export const parseMonth = parsePart(
+  constraints.monthOfYear,
+  PartNames.monthOfYear
+)
+export const parseDayOfWeek = parsePart(
+  constraints.dayOfWeek,
+  PartNames.dayOfWeek
+)
 export const parseYear = parsePart(constraints.year, PartNames.year)
