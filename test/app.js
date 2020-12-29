@@ -112,4 +112,20 @@ describe('isActive', () => {
       new Date(2018, 11, 19, 6, 0))
     expect(result).to.be.true
   })
+
+  it('should throw error on unvalid input', () => {
+    expect(() => {
+      isActive('123',
+        new Date(2018, 11, 19, 6, 0))
+    }).to.throw('parse error: type: minutes value: 123')
+  })
+
+  it('should throw CronParseError as name', () => {
+    try {
+      isActive('1 abc',
+        new Date(2018, 11, 19, 6, 0))
+    } catch (error) {
+      expect(error.name).equals('CronParseError')
+    }
+  })
 })

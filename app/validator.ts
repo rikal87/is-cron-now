@@ -5,6 +5,8 @@ export const validateDatePartNumber = (type: PartsType, value: number, min: numb
     return value
   }
 
-  throw new Error(`parse error: type: ${type} value: ${value}`)
+  const error = new Error(`parse error: type: ${type} value: ${value}`)
+  error.name = 'CronParseError'
+  throw error
 }
 
