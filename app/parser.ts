@@ -2,6 +2,13 @@ import {constraints, PartsType, PartNames} from './constants'
 import {getDateOfType} from './date-helper'
 import {validateDatePartNumber} from './validator'
 
+const isHyphenRange = (values: string) => values.split('-').length > 1
+const isRepeated = (values: string) => values.split('/').length > 1
+const checkForList = (values: string): [boolean, Array<string>] => {
+  const parts = values.split(',')
+  return [parts.length > 1, parts]
+}
+
 const getHyphenRangeValues = (values: string): Array<string> => {
   const [start, end] = values.split('-')
   const lowEnd = +start
@@ -50,19 +57,19 @@ export const parsePart = (contraint: Array<number>, type: PartsType) => (
     return [getDateOfType(type, matchTime)]
   }
 
-  const parts = values.split(',')
-  if (parts.length > 1) {
+  const [isList, parts] = checkForList(values)
+  if (isList) {
     return parts
-      .map(part => parsePart(contraint, type)(part, matchTime))
+      .map((part) => parsePart(contraint, type)(part, matchTime))
       .reduce((a, b) => (Array.isArray(a) ? a.concat(b) : a))
   }
 
-  if (values.split('-').length > 1) {
+  if (isHyphenRange(values)) {
     const hyphenParts = getHyphenRangeValues(values)
     return hyphenParts.map(parseAndValidateValue)
   }
 
-  if (values.split('/').length > 1) {
+  if (isRepeated(values)) {
     const repeatedParts = getRepeatedValues(values, contraint[1])
     return repeatedParts.map(parseAndValidateValue)
   }

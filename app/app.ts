@@ -1,4 +1,3 @@
-import {constraints, PartsType, PartNames} from './constants'
 import {getActiveBasedOnDate} from './date-helper'
 import {
   parseMinute,
@@ -30,7 +29,7 @@ const getCronParts = (string: string) => {
 }
 
 const isAnyValueEmpty = (collection: Array<Array<number>>) =>
-  !!collection.find(values => values.length === 0)
+  !!collection.find((values) => values.length === 0)
 
 export const isActive = (cronString: string, matchTime = new Date()) => {
   const cronParts = getCronParts(cronString.trim())

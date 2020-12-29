@@ -21,23 +21,22 @@ export const getActiveBasedOnDate = (
   cronParts: Array<Array<number>>,
   matchTime = new Date()
 ) => {
-  const activeCronParts = cronParts.map((times, i) =>
-    times.map(time => {
+  return cronParts.map((times, i) =>
+    times.filter((time) => {
       switch (i) {
         case 0:
-          return matchTime.getMinutes() === time ? time : null
+          return matchTime.getMinutes() === time
         case 1:
-          return matchTime.getHours() === time ? time : null
+          return matchTime.getHours() === time
         case 2:
-          return matchTime.getDate() === time ? time : null
+          return matchTime.getDate() === time
         case 3:
-          return matchTime.getMonth() === time ? time : null
+          return matchTime.getMonth() === time
         case 4:
-          return matchTime.getDay() === time ? time : null
+          return matchTime.getDay() === time
         case 5:
-          return matchTime.getFullYear() === time ? time : null
+          return matchTime.getFullYear() === time
       }
     })
   )
-  return activeCronParts.map(value => value.filter(value => value !== null))
 }
