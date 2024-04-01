@@ -1,42 +1,39 @@
-import {PartsType, PartNames} from './constants'
+import { PartsType, PartNames } from './constants';
 
 export const getDateOfType = (type: PartsType, matchTime: Date) => {
   switch (type) {
     case PartNames.minutes:
-      return matchTime.getMinutes()
+      return matchTime.getMinutes();
     case PartNames.hours:
-      return matchTime.getHours()
+      return matchTime.getHours();
     case PartNames.dayOfMonth:
-      return matchTime.getDate()
+      return matchTime.getDate();
     case PartNames.monthOfYear:
-      return matchTime.getMonth()
+      return matchTime.getMonth();
     case PartNames.dayOfWeek:
-      return matchTime.getDay()
+      return matchTime.getDay();
     case PartNames.year:
-      return matchTime.getFullYear()
+      return matchTime.getFullYear();
   }
-}
+};
 
-export const getActiveBasedOnDate = (
-  cronParts: Array<Array<number>>,
-  matchTime = new Date()
-) => {
+export const getActiveBasedOnDate = (cronParts: Array<Array<number>>, matchTime = new Date()) => {
   return cronParts.map((times, i) =>
     times.filter((time) => {
       switch (i) {
         case 0:
-          return matchTime.getMinutes() === time
+          return matchTime.getMinutes() === time;
         case 1:
-          return matchTime.getHours() === time
+          return matchTime.getHours() === time;
         case 2:
-          return matchTime.getDate() === time
+          return matchTime.getDate() === time;
         case 3:
-          return matchTime.getMonth() === time
+          return matchTime.getMonth() === time;
         case 4:
-          return matchTime.getDay() === time
+          return matchTime.getDay() === time;
         case 5:
-          return matchTime.getFullYear() === time
+          return matchTime.getFullYear() === time;
       }
-    })
-  )
-}
+    }),
+  );
+};
